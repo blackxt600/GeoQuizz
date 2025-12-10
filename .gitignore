@@ -64,3 +64,10 @@ backup/
 *.pem
 *.key
 *.crt
+
+# Fichiers locaux - Ne pas synchroniser
+PUSH_TO_GITHUB.md
+push-to-github.bat
+push.bat
+*.lnk
+spec/besoin.txt
