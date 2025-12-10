@@ -1,0 +1,35 @@
+Crée une application mobile multijoueur inspirée du jeu GeoGuessr avec les spécificités suivantes :
+But du jeu :
+Les joueurs doivent deviner l’emplacement géographique de photos présentées à l’écran. L’application compare leurs réponses avec les vraies coordonnées et attribue des points en fonction de la précision.
+
+ 
+
+Source des photos :
+Les photos à deviner sont stockées sur un serveur de fichiers, dans une arborescence de dossiers et sous-dossiers.
+Au lancement du quiz, l’utilisateur doit pouvoir choisir le dossier racine (chemin à préciser) dans lequel l’application doit aller chercher les photos.
+L’application peut parcourir tous les sous-dossiers pour utiliser les photos disponibles.
+
+ 
+
+Filtrage :
+Chaque photo utilisée doit contenir des informations de géolocalisation (coordonnées GPS dans les métadonnées, par exemple EXIF).
+Si une photo ne contient pas de géolocalisation, elle doit être ignorée et une autre doit être choisie aléatoirement.
+
+ 
+
+Fonctionnalités multijoueurs :
+Prévois un mode multijoueur (synchronisé en temps réel ou en mode tour par tour) permettant à plusieurs joueurs de deviner la localisation sur la même série de photos.
+
+ 
+
+Interface :
+Affiche chaque photo et propose une carte interactive où les joueurs placent leur réponse.
+Affiche après chaque manche la bonne localisation, le score et la distance entre la réponse et la vérité.
+
+ 
+
+Autres fonctionnalités :
+Option de configurer le nombre de manches/parties.
+Possibilité de rejouer ou changer l’arborescence de fichiers.
+
+Utilise du python pour le code.

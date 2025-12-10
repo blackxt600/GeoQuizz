@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoQuizz - Devinez l'emplacement</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Écran de configuration -->
+    <div id="config-screen" class="screen active">
+        <div class="container">
+            <h1>GeoQuizz</h1>
+            <p class="subtitle">Devinez l'emplacement des photos</p>
+
+            <div class="config-form">
+                <div class="form-group">
+                    <label for="player-name">Nom du joueur</label>
+                    <input type="text" id="player-name" placeholder="Entrez votre nom" value="Joueur 1">
+                </div>
+
+                <div class="form-group">
+                    <label for="photo-folder">Dossier des photos</label>
+                    <input type="text" id="photo-folder" placeholder="C:\Photos\Vacances">
+                    <small>Chemin complet du dossier contenant vos photos avec GPS</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="num-rounds">Nombre de manches</label>
+                    <select id="num-rounds">
+                        <option value="3">3 manches</option>
+                        <option value="5" selected>5 manches</option>
+                        <option value="10">10 manches</option>
+                        <option value="15">15 manches</option>
+                    </select>
+                </div>
+
+                <button id="btn-scan-photos" class="btn btn-primary">Scanner les photos</button>
+
+                <div id="scan-result" class="scan-result hidden">
+                    <p class="success"></p>
+                    <button id="btn-start-game" class="btn btn-success">Démarrer la partie</button>
+                </div>
+
+                <div id="scan-error" class="scan-error hidden"></div>
+            </div>
+
+            <div class="stats">
+                <h3>Statistiques</h3>
+                <div id="stats-content">
+                    <p>Aucune statistique disponible</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Écran de jeu -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <div class="game-info">
+                <span id="player-display"></span>
+                <span id="round-display">Manche 1/5</span>
+                <span id="score-display">Score: 0</span>
+            </div>
+        </div>
+
+        <div class="game-content">
+            <div class="photo-section">
+                <h2>Où se trouve cette photo ?</h2>
+                <div class="photo-container">
+                    <img id="current-photo" src="" alt="Photo à deviner">
+                </div>
+            </div>
+
+            <div class="map-section">
+                <h2>Cliquez sur la carte pour deviner</h2>
+                <div id="map"></div>
+                <button id="btn-submit-guess" class="btn btn-primary" disabled>Valider ma réponse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Écran de résultat -->
+    <div id="result-screen" class="screen">
+        <div class="container">
+            <h2>Résultat de la manche</h2>
+
+            <div class="result-details">
+                <div class="result-item">
+                    <span class="label">Distance:</span>
+                    <span id="result-distance" class="value"></span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Score:</span>
+                    <span id="result-score" class="value"></span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Score total:</span>
+                    <span id="result-total-score" class="value"></span>
+                </div>
+            </div>
+
+            <div id="result-map"></div>
+
+            <div class="result-actions">
+                <button id="btn-next-round" class="btn btn-primary">Manche suivante</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Écran de fin de partie -->
+    <div id="end-screen" class="screen">
+        <div class="container">
+            <h1>Partie terminée !</h1>
+
+            <div class="final-score">
+                <h2>Score final</h2>
+                <div class="score-big" id="final-score">0</div>
+                <p id="final-player-name"></p>
+            </div>
+
+            <div class="summary">
+                <h3>Récapitulatif des manches</h3>
+                <div id="summary-content"></div>
+            </div>
+
+            <div class="leaderboard">
+                <h3>Classement</h3>
+                <div id="leaderboard-content"></div>
+            </div>
+
+            <div class="end-actions">
+                <button id="btn-new-game" class="btn btn-primary">Nouvelle partie</button>
+                <button id="btn-change-config" class="btn btn-secondary">Changer de configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
