@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  geoquizz:
+    build: .
+    container_name: geoquizz-app
+    ports:
+      - "5000:5000"
+    volumes:
+      # Monter le dossier data pour la persistance
+      - ./data:/app/data
+      # Monter votre dossier de photos (à adapter selon votre configuration)
+      # Exemple Windows: - C:\Photos:/photos:ro
+      # Exemple Linux: - /home/user/Photos:/photos:ro
+      - type: bind
+        source: ${PHOTOS_PATH:-/photos}
+        target: /photos
+        read_only: true
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Pour démarrer : docker-compose up -d
+# Pour arrêter : docker-compose down
+# Pour voir les logs : docker-compose logs -f
