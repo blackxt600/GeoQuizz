@@ -11,6 +11,9 @@ let multiplayerResultMap = null;
 let guessMarker = null;
 let currentGuessCoords = null;
 
+// Configuration de centrage carte
+let centerOnFrance = true;  // Par défaut activé
+
 // Variables multijoueur
 let socket = null;
 let isMultiplayerMode = false;
@@ -19,11 +22,57 @@ let playerColor = null;
 let isHost = false;
 let isReady = false;
 
+/**
+ * Obtenir les coordonnées et le zoom pour centrer la carte
+ * selon la préférence de l'utilisateur
+ */
+function getMapView() {
+    if (centerOnFrance) {
+        // Centre de la France avec zoom pour voir tout le pays
+        return {
+            coords: [46.603354, 1.888334],
+            zoom: 6
+        };
+    } else {
+        // Vue monde (Paris comme référence)
+        return {
+            coords: [48.8566, 2.3522],
+            zoom: 2
+        };
+    }
+}
+
+/**
+ * Charger la configuration sauvegardée
+ */
+async function loadConfig() {
+    try {
+        const response = await fetch('/api/config');
+        const config = await response.json();
+
+        if (config && config.center_france !== undefined) {
+            centerOnFrance = config.center_france;
+            document.getElementById('center-france').checked = config.center_france;
+        }
+
+        if (config && config.photo_folder) {
+            document.getElementById('photo-folder').value = config.photo_folder;
+        }
+
+        if (config && config.num_rounds) {
+            document.getElementById('num-rounds').value = config.num_rounds;
+        }
+    } catch (error) {
+        console.error('Erreur lors du chargement de la configuration:', error);
+    }
+}
+
 // Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', function() {
     initConfigScreen();
     initWebSocket();
     loadStats();
+    loadConfig();
     checkAutoJoinRoom();
 });
 
@@ -68,11 +117,15 @@ function initConfigScreen() {
 async function scanPhotos() {
     const photoFolder = document.getElementById('photo-folder').value.trim();
     const numRounds = parseInt(document.getElementById('num-rounds').value);
+    const centerFrance = document.getElementById('center-france').checked;
 
     if (!photoFolder) {
         showError('Veuillez entrer un chemin de dossier');
         return;
     }
+
+    // Sauvegarder la préférence
+    centerOnFrance = centerFrance;
 
     // Afficher un message de chargement
     const btn = document.getElementById('btn-scan-photos');
@@ -87,7 +140,8 @@ async function scanPhotos() {
             },
             body: JSON.stringify({
                 photo_folder: photoFolder,
-                num_rounds: numRounds
+                num_rounds: numRounds,
+                center_france: centerFrance
             })
         });
 
@@ -170,7 +224,8 @@ function showGameScreen() {
  * Initialiser la carte de jeu
  */
 function initGameMap() {
-    gameMap = L.map('map').setView([48.8566, 2.3522], 2);
+    const mapView = getMapView();
+    gameMap = L.map('map').setView(mapView.coords, mapView.zoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
@@ -233,7 +288,10 @@ async function loadCurrentPhoto() {
             }
             currentGuessCoords = null;
             document.getElementById('btn-submit-guess').disabled = true;
-            gameMap.setView([48.8566, 2.3522], 2);
+
+            // Centrer la carte selon la préférence
+            const mapView = getMapView();
+            gameMap.setView(mapView.coords, mapView.zoom);
         } else {
             showError(data.error || 'Erreur lors du chargement de la photo');
         }
@@ -737,7 +795,10 @@ function handleRoundStarted(data) {
         guessMarker = null;
     }
     currentGuessCoords = null;
-    gameMap.setView([48.8566, 2.3522], 2);
+
+    // Centrer la carte selon la préférence
+    const mapView = getMapView();
+    gameMap.setView(mapView.coords, mapView.zoom);
 
     // Forcer le redimensionnement de la carte (important pour Leaflet)
     setTimeout(() => {

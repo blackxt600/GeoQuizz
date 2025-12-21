@@ -5,6 +5,36 @@ All notable changes to GeoQuizz will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-12-21
+
+### Added - User Experience
+- **France Map Centering**: New checkbox option to automatically center map on France at each round start
+  - Enabled by default for easy location selection in France
+  - Map centers on [46.603354, 1.888334] with zoom level 6 when enabled
+  - Falls back to world view (Paris reference) with zoom level 2 when disabled
+  - Preference persists across sessions in `config.json`
+  - Works in both solo and multiplayer modes
+
+### Added - Technical
+- New field `center_france` in configuration storage (`data/config.json`)
+- New global JavaScript variable `centerOnFrance` for runtime preference
+- New function `getMapView()` in `app.js` to return appropriate map center/zoom
+- New function `loadConfig()` in `app.js` to restore saved configuration on page load
+- Configuration checkbox in HTML configuration screen with help text
+
+### Changed
+- `POST /api/config` endpoint now accepts and saves `center_france` parameter
+- `GET /api/config` endpoint now returns `center_france` preference
+- Map initialization and reset logic updated to use dynamic centering:
+  - `initGameMap()` - Initial map creation
+  - `loadCurrentPhoto()` - Solo mode round start
+  - `handleRoundStarted()` - Multiplayer mode round start
+
+### Documentation
+- Updated `CLAUDE.md` with map centering feature details
+- Updated `README.md` with user-facing feature description
+- Added development task section for modifying map center behavior
+
 ## [2.0.0] - 2025-12-21
 
 ### Added - Multiplayer Mode

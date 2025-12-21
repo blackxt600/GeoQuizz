@@ -70,6 +70,7 @@ def config():
         data = request.json
         photo_folder = data.get('photo_folder')
         num_rounds = data.get('num_rounds', 5)
+        center_france = data.get('center_france', True)  # Par défaut activé
 
         if not photo_folder or not os.path.exists(photo_folder):
             return jsonify({'error': 'Dossier de photos invalide'}), 400
@@ -86,7 +87,8 @@ def config():
         config = {
             'photo_folder': photo_folder,
             'num_rounds': num_rounds,
-            'num_photos_found': num_photos
+            'num_photos_found': num_photos,
+            'center_france': center_france
         }
         game_manager.save_config(config)
 

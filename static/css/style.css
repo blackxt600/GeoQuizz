@@ -109,6 +109,34 @@ body {
     font-size: 0.85em;
 }
 
+/* Checkbox group styling */
+.checkbox-group {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.checkbox-group small {
+    margin-left: 28px;
+}
+
 /* Boutons */
 .btn {
     padding: 12px 30px;

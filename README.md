@@ -25,6 +25,7 @@ GeoQuizz est un jeu où les joueurs doivent deviner l'emplacement géographique 
 - **Filtrage automatique** : Ignore les photos sans coordonnées GPS
 - **Système de scoring** : Points attribués selon la précision (0-5000 points par manche)
 - **Carte interactive** : Interface Leaflet pour placer les réponses
+- **Centrage automatique sur la France** : Option activée par défaut pour faciliter la sélection de lieux en France
 - **Résultats détaillés** : Affiche la distance, le score et la position réelle après chaque manche
 - **Classement** : Historique des meilleures parties
 - **Configuration flexible** : Nombre de manches personnalisable (3, 5, 10, 15)
@@ -66,6 +67,7 @@ http://localhost:5000
    - Entrer votre nom de joueur
    - Spécifier le chemin du dossier contenant vos photos (ex: `C:\Photos\Vacances`)
    - Choisir le nombre de manches
+   - **Option** : Cocher/décocher "Centrer la carte sur la France à chaque manche" (activée par défaut)
    - Cliquer sur "Scanner les photos"
 
 4. Démarrer une partie :
