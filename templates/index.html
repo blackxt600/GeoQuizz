@@ -8,6 +8,9 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
+    <!-- Socket.IO Client -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -44,10 +47,19 @@
 
                 <div id="scan-result" class="scan-result hidden">
                     <p class="success"></p>
-                    <button id="btn-start-game" class="btn btn-success">Démarrer la partie</button>
+                    <button id="btn-start-game" class="btn btn-success">Démarrer la partie solo</button>
+                    <button id="btn-create-multiplayer" class="btn btn-success">Créer partie multijoueur</button>
                 </div>
 
                 <div id="scan-error" class="scan-error hidden"></div>
+
+                <!-- Rejoindre une partie (toujours visible) -->
+                <div class="multiplayer-join-section">
+                    <hr>
+                    <h3>Ou rejoindre une partie existante</h3>
+                    <p class="hint">Entrez simplement votre nom et le code de la salle</p>
+                    <button id="btn-join-multiplayer" class="btn btn-secondary btn-large">Rejoindre une partie</button>
+                </div>
             </div>
 
             <div class="stats">
@@ -59,9 +71,69 @@
         </div>
     </div>
 
+    <!-- Écran Lobby Multijoueur -->
+    <div id="lobby-screen" class="screen">
+        <div class="container">
+            <h1>Salle Multijoueur</h1>
+
+            <div class="lobby-info">
+                <div class="room-code-section">
+                    <h3>Code de la salle</h3>
+                    <div class="room-code-display">
+                        <span id="lobby-room-code">----</span>
+                        <button id="btn-copy-code" class="btn btn-small">Copier</button>
+                    </div>
+                    <p class="hint">Partagez ce code avec vos amis</p>
+
+                    <!-- QR Code Section -->
+                    <div class="qr-code-section">
+                        <h4>Ou scannez ce QR code</h4>
+                        <div id="qr-code-container" class="qr-code-container">
+                            <img id="qr-code-image" src="" alt="QR Code de la salle">
+                        </div>
+                        <div id="share-url-display" class="share-url-display">
+                            <small id="share-url-text"></small>
+                        </div>
+                        <button id="btn-copy-url" class="btn btn-small">Copier le lien</button>
+                    </div>
+                </div>
+
+                <div class="room-settings">
+                    <p><strong>Manches:</strong> <span id="lobby-num-rounds">5</span></p>
+                    <p><strong>Timer:</strong> 60 secondes par manche</p>
+                    <p><strong>Joueurs:</strong> <span id="lobby-player-count">1</span>/6</p>
+                </div>
+            </div>
+
+            <div class="players-list">
+                <h3>Joueurs</h3>
+                <div id="lobby-players-container"></div>
+            </div>
+
+            <div class="lobby-actions">
+                <button id="btn-ready" class="btn btn-primary">Prêt</button>
+                <button id="btn-start-multiplayer" class="btn btn-success" disabled>Démarrer la partie</button>
+                <button id="btn-leave-lobby" class="btn btn-secondary">Quitter</button>
+            </div>
+
+            <div id="lobby-status" class="lobby-status"></div>
+        </div>
+    </div>
+
     <!-- Écran de jeu -->
     <div id="game-screen" class="screen">
         <div class="game-header">
+            <!-- Timer (multijoueur uniquement) -->
+            <div id="timer-container" class="timer-container hidden">
+                <div id="timer-display" class="timer-display">1:00</div>
+            </div>
+
+            <!-- Statuts joueurs (multijoueur uniquement) -->
+            <div id="players-status-container" class="players-status-container hidden">
+                <div id="players-status-list" class="players-status-list"></div>
+            </div>
+
+            <!-- Info jeu (solo) -->
             <div class="game-info">
                 <span id="player-display"></span>
                 <span id="round-display">Manche 1/5</span>
@@ -81,6 +153,9 @@
                 <h2>Cliquez sur la carte pour deviner</h2>
                 <div id="map"></div>
                 <button id="btn-submit-guess" class="btn btn-primary" disabled>Valider ma réponse</button>
+                <div id="waiting-message" class="waiting-message hidden">
+                    <p>En attente des autres joueurs...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -109,6 +184,40 @@
 
             <div class="result-actions">
                 <button id="btn-next-round" class="btn btn-primary">Manche suivante</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Écran de résultats multijoueur -->
+    <div id="multiplayer-result-screen" class="screen">
+        <div class="container">
+            <h2>Résultats de la manche</h2>
+
+            <!-- Leaderboard de la manche -->
+            <div class="round-leaderboard">
+                <h3>Classement</h3>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rang</th>
+                            <th>Joueur</th>
+                            <th>Distance</th>
+                            <th>Score</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="multiplayer-results-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- Carte avec tous les marqueurs -->
+            <div class="results-map-section">
+                <h3>Vos réponses</h3>
+                <div id="multiplayer-result-map"></div>
+            </div>
+
+            <div class="result-actions">
+                <button id="btn-next-multiplayer-round" class="btn btn-primary">Continuer</button>
             </div>
         </div>
     </div>

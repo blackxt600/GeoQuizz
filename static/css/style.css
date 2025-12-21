@@ -12,6 +12,11 @@ body {
     min-height: 100vh;
 }
 
+/* Utilitaire pour masquer les éléments */
+.hidden {
+    display: none !important;
+}
+
 /* Conteneur principal */
 .container {
     max-width: 1200px;
@@ -199,6 +204,30 @@ body {
     background: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
+}
+
+/* Section rejoindre partie */
+.multiplayer-join-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid #e0e0e0;
+    text-align: center;
+}
+
+.multiplayer-join-section h3 {
+    margin-bottom: 10px;
+    color: #667eea;
+    font-size: 1.3em;
+}
+
+.multiplayer-join-section .hint {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.multiplayer-join-section .btn-large {
+    font-size: 1.1em;
+    padding: 15px 40px;
 }
 
 /* Écran de jeu */
@@ -448,5 +477,509 @@ body {
 
     .btn-secondary {
         width: 100%;
+    }
+}
+
+/* ===== STYLES MULTIJOUEUR ===== */
+
+/* Lobby */
+#lobby-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#lobby-screen .container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+.lobby-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.room-code-section {
+    text-align: center;
+}
+
+.room-code-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.room-code-display span {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #667eea;
+    letter-spacing: 3px;
+}
+
+/* QR Code Section */
+.qr-code-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.qr-code-section h4 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.qr-code-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    min-height: 250px;
+}
+
+#qr-code-image {
+    max-width: 250px;
+    max-height: 250px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 10px;
+}
+
+.share-url-display {
+    margin: 10px 0;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#share-url-text {
+    font-family: monospace;
+    color: #667eea;
+    font-size: 0.85em;
+    word-break: break-all;
+}
+
+.btn-small {
+    padding: 5px 15px;
+    font-size: 0.9em;
+}
+
+.hint {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.room-settings p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.players-list {
+    margin: 30px 0;
+}
+
+.players-list h3 {
+    margin-bottom: 15px;
+    color: #667eea;
+}
+
+#lobby-players-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.lobby-player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.player-status {
+    font-size: 1.3em;
+}
+
+.lobby-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.lobby-status {
+    margin-top: 20px;
+    text-align: center;
+    color: #666;
+}
+
+/* Timer */
+.timer-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.timer-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #667eea;
+    background: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+
+.timer-display.danger {
+    color: #ff4444;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Statuts joueurs dans le jeu */
+.players-status-container {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.players-status-list {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.player-status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: bold;
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+.status-icon {
+    font-size: 1.2em;
+}
+
+.status-icon.guessed {
+    color: #00ff00;
+}
+
+.status-icon.waiting {
+    color: #ffaa00;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Message d'attente */
+.waiting-message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    color: #666;
+}
+
+.waiting-message p {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+/* Écran de résultats multijoueur */
+#multiplayer-result-screen {
+    padding: 20px 0;
+}
+
+#multiplayer-result-screen .container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 1200px;
+}
+
+.round-leaderboard {
+    margin: 30px 0;
+}
+
+.round-leaderboard h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-table thead {
+    background: #667eea;
+    color: white;
+}
+
+.leaderboard-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.leaderboard-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.leaderboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+.leaderboard-table tr:hover {
+    background: #f8f9fa;
+}
+
+.leaderboard-table tr.first-place {
+    background: #fff9e6;
+    font-weight: bold;
+}
+
+.leaderboard-table tr.first-place td {
+    color: #d4af37;
+}
+
+.color-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px #ccc;
+}
+
+.results-map-section {
+    margin: 30px 0;
+}
+
+.results-map-section h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+#multiplayer-result-map {
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Écran de compte à rebours */
+#countdown-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#countdown-screen .container {
+    text-align: center;
+    color: white;
+}
+
+#countdown-screen h1 {
+    font-size: 3em;
+    margin-bottom: 30px;
+}
+
+.countdown-number {
+    font-size: 8em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    animation: countdownPulse 1s ease-in-out;
+}
+
+@keyframes countdownPulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Overlay de pause */
+.pause-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.pause-message {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.pause-message h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+.pause-message p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #666;
+}
+
+#pause-timer {
+    font-weight: bold;
+    color: #ff4444;
+    font-size: 1.3em;
+}
+
+/* Boutons multiples dans scan-result */
+#scan-result {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#scan-result .btn {
+    width: 100%;
+}
+
+/* Responsive multijoueur */
+@media (max-width: 968px) {
+    .lobby-info {
+        grid-template-columns: 1fr;
+    }
+
+    .room-code-display span {
+        font-size: 2em;
+    }
+
+    .timer-display {
+        font-size: 2em;
+        padding: 10px 20px;
+    }
+
+    .players-status-list {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .player-status-item {
+        justify-content: space-between;
+    }
+
+    .lobby-actions {
+        flex-direction: column;
+    }
+
+    .lobby-actions .btn {
+        width: 100%;
+    }
+
+    #multiplayer-result-map {
+        height: 400px;
+    }
+
+    .leaderboard-table {
+        font-size: 0.9em;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 8px;
+    }
+
+    .countdown-number {
+        font-size: 5em;
+    }
+}
+
+@media (max-width: 600px) {
+    #lobby-screen .container,
+    #multiplayer-result-screen .container {
+        padding: 20px;
+    }
+
+    .timer-display {
+        font-size: 1.5em;
+    }
+
+    #multiplayer-result-map {
+        height: 300px;
+    }
+
+    .leaderboard-table {
+        font-size: 0.8em;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 6px 4px;
+    }
+
+    .color-dot {
+        width: 8px;
+        height: 8px;
+        margin-right: 4px;
     }
 }
