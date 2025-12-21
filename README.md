@@ -1,13 +1,26 @@
 # GeoQuizz
 
-Application mobile de quiz géographique multijoueur inspirée de GeoGuessr.
+Application web de quiz géographique multijoueur inspirée de GeoGuessr.
 
 ## Description
 
 GeoQuizz est un jeu où les joueurs doivent deviner l'emplacement géographique de photos. L'application compare leurs réponses avec les vraies coordonnées GPS et attribue des points en fonction de la précision.
 
-## Fonctionnalités
+## ✨ Version 2.0.0 - Mode Multijoueur avec QR Code
 
+### Nouvelles fonctionnalités
+- 🎮 **Mode Multijoueur en temps réel** avec synchronisation WebSocket
+- 📱 **QR Code automatique** pour partager facilement les salles de jeu
+- 🌐 **Détection d'IP locale** pour connexion sur réseau local
+- 🔗 **URL de partage directe** (`/join/{room_id}`)
+- ⏱️ **Timer synchronisé** de 60 secondes par manche
+- 🎯 **Carte avec marqueurs multijoueur** en couleurs
+- 👥 **Jusqu'à 6 joueurs** simultanés par salle
+- 🏆 **Classement en temps réel** après chaque manche
+
+## Fonctionnalités principales
+
+### Mode Solo
 - **Sélection de photos personnalisées** : Parcourt récursivement un dossier pour trouver des photos avec métadonnées GPS
 - **Filtrage automatique** : Ignore les photos sans coordonnées GPS
 - **Système de scoring** : Points attribués selon la précision (0-5000 points par manche)
@@ -15,6 +28,13 @@ GeoQuizz est un jeu où les joueurs doivent deviner l'emplacement géographique 
 - **Résultats détaillés** : Affiche la distance, le score et la position réelle après chaque manche
 - **Classement** : Historique des meilleures parties
 - **Configuration flexible** : Nombre de manches personnalisable (3, 5, 10, 15)
+
+### Mode Multijoueur
+- **Lobby avec QR Code** : Créez une salle et partagez le QR code
+- **3 façons de rejoindre** : QR code, lien direct ou code de salle
+- **Synchronisation temps réel** : Tous les joueurs voient la même photo
+- **Gestion des déconnexions** : Pause automatique de 30 secondes
+- **Résultats comparatifs** : Carte interactive montrant toutes les réponses
 
 ## Prérequis
 
@@ -101,20 +121,38 @@ Le score est calculé selon la distance entre la supposition et la vraie positio
 
 **Formule** : `score = 5000 * (2^(-distance/250))`
 
-## Prochaines fonctionnalités (v2)
+## 📖 Documentation
 
-- Mode multijoueur tour par tour
-- Support de plusieurs joueurs simultanés
-- Salles de jeu privées
-- Chronomètre par manche
+- **[Guide Multijoueur](MULTIPLAYER_GUIDE.md)** - Guide complet du mode multijoueur
+- **[CLAUDE.md](CLAUDE.md)** - Instructions pour Claude Code
+- **[CHANGELOG.md](CHANGELOG.md)** - Historique des versions
+- **[DEPLOY.md](DEPLOY.md)** - Guide de déploiement
+
+## 🚀 Quick Start Multijoueur
+
+1. Lancez le serveur : `python app.py`
+2. Sur votre PC : Ouvrez http://localhost:5000
+3. Cliquez sur "Créer partie multijoueur"
+4. **Sur mobile** : Scannez le QR code affiché
+5. Jouez ensemble en temps réel !
+
+## Prochaines fonctionnalités (v3)
+
+- Interface mobile optimisée
+- Modes de jeu supplémentaires (pays spécifique, continent, etc.)
 - Indices progressifs
-- Différents modes de jeu (pays spécifique, continent, etc.)
+- Profils utilisateurs persistants
+- Mode tournoi
+- Équipes multijoueur
+- Statistiques avancées
 
 ## Technologies utilisées
 
 - **Backend** : Flask (Python 3.13)
 - **Frontend** : HTML5, CSS3, JavaScript
+- **Temps réel** : Flask-SocketIO, Socket.IO (WebSocket)
 - **Cartes** : Leaflet.js
+- **QR Code** : qrcode library (PIL)
 - **Stockage** : Fichiers JSON (sans base de données)
 - **Images** : Pillow (extraction EXIF)
 - **Géolocalisation** : geopy
